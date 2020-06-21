@@ -33,5 +33,18 @@
         <item name="android:layout_height">@dimen/bottom_sheet_list_dp</item>
         <item name="android:gravity">center_vertical</item>
     </style>
+    
+    <style name="Shimmer">
+        <item name="shimmer_auto_start">true</item>
+        <item name="shimmer_base_color">@color/md_grey_100</item>
+        <item name="shimmer_highlight_alpha">0.4</item>
+        <item name="shimmer_highlight_color">@color/md_grey_300</item>
+    </style>
 
+    <style name="ButtonTextview">
+        <item name="android:paddingStart">8dp</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingEnd">8dp</item>
+        <item name="android:paddingBottom">4dp</item>
+    </style>
 </resources>

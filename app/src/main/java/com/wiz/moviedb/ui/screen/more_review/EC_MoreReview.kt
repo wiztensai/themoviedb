@@ -3,6 +3,7 @@ package com.wiz.moviedb.ui.screen.more_review
 import android.content.Context
 import com.airbnb.epoxy.TypedEpoxyController
 import com.wiz.moviedb.domain.MovieModel
+import com.wiz.moviedb.ui.screen.detail_movie.EM_ReviewLoading_
 import com.wiz.moviedb.ui.screen.home.EM_Home
 import com.wiz.moviedb.ui.screen.home.EM_Home_
 import com.wiz.moviedb.util.NetworkState
@@ -13,6 +14,11 @@ class EC_MoreReview(var context: Context, var networkState: NetworkState?, var l
 
     override fun buildModels(data: MutableList<MovieModel>?) {
         data?:return
+
+        // INIT LOADING
+        EM_ReviewLoading_()
+            .id("IL")
+            .addIf(data.isEmpty() && networkState != NetworkState.FAILED, this)
 
         // CONTENT
         data.forEach {
@@ -26,6 +32,10 @@ class EC_MoreReview(var context: Context, var networkState: NetworkState?, var l
                 .addTo(this)
         }
 
+        // MORE CONTENT LOADING
+        EM_ReviewLoading_()
+            .id("MCL")
+            .addIf(hasExtraRow() && data.isNotEmpty(), this)
     }
 
     interface MCallback {

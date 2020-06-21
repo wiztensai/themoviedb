@@ -76,8 +76,8 @@ class F_DetailMovie(val movieModel: MovieModel) : BaseFragment() {
     fun checkFav() {
         coroutineScope.launch {
             val isFav = if (roomDB.movieDao().searchById(movieModel.id.toInt()) != null) true else false
-            if (isFav) bind.btnFav.background = resources.getDrawable(R.drawable.ic_favorite_24px)
-            else bind.btnFav.background = resources.getDrawable(R.drawable.ic_favorite_border_24px)
+            if (isFav) bind.btnFav.setImageResource(R.drawable.ic_favorite_24px)
+            else bind.btnFav.setImageResource(R.drawable.ic_favorite_border_24px)
         }
     }
 
@@ -87,10 +87,10 @@ class F_DetailMovie(val movieModel: MovieModel) : BaseFragment() {
                 val isFav = if (roomDB.movieDao().searchById(movieModel.id.toInt()) != null) true else false
                 if (isFav) {
                     roomDB.movieDao().unFavorite(movieModel.id.toInt())
-                    bind.btnFav.background = resources.getDrawable(R.drawable.ic_favorite_border_24px)
+                    bind.btnFav.setImageResource(R.drawable.ic_favorite_border_24px)
                 } else {
                     roomDB.movieDao().favorite(movieModel)
-                    bind.btnFav.background = resources.getDrawable(R.drawable.ic_favorite_24px)
+                    bind.btnFav.setImageResource(R.drawable.ic_favorite_24px)
                 }
 
                 sendToggleFavBroadcast()

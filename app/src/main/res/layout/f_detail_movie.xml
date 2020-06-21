@@ -110,7 +110,7 @@
                 style="@style/FontStyleBody_Bold"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginEnd="8dp"
                 app:layout_constraintEnd_toStartOf="@+id/btnFav"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -119,6 +119,7 @@
                 tools:text="@tools:sample/full_names" />
 
             <TextView
+                android:layout_marginTop="4dp"
                 android:id="@+id/tvReleaseDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -137,6 +138,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvReleaseDate" />
 
             <TextView
+                android:layout_marginTop="4dp"
                 android:id="@+id/tvSynopsis"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -155,7 +157,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:background="@color/transparent"
-                android:padding="2dp"
+                android:padding="4dp"
                 android:scaleType="fitCenter"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -175,15 +177,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/btn_more_reviews" />
 
-    <Button
-        android:visibility="invisible"
+    <TextView
         android:id="@+id/btn_more_reviews"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:background="@color/transparent"
+        style="@style/ButtonTextview"
         android:text="See More"
-        android:textAllCaps="false"
+        android:textColor="@color/md_blue_500"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layoutContainer" />
 
