@@ -198,5 +198,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnSeeMore" />
 
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/tvInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No Review"
+        app:layout_constraintBottom_toBottomOf="@+id/rvReviews"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/rvReviews" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 

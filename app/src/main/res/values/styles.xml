@@ -19,12 +19,16 @@
     </style>
 
     <style name="BottomMenuList">
+        <item name="android:colorBackground">@color/defaultBackgroundAndroid</item>
+        <item name="android:clickable">true</item>
         <item name="android:paddingLeft">8dp</item>
         <item name="android:layout_height">@dimen/bottom_sheet_list_dp</item>
         <item name="android:gravity">center_vertical</item>
     </style>
 
     <style name="BottomMenuHeadList" parent="FontStyleBody_Bold">
+        <item name="android:background">@drawable/bg_bottom_sheet_headlist</item>
+        <item name="android:textColor">@color/md_white_1000</item>
         <item name="android:paddingLeft">8dp</item>
         <item name="android:layout_height">@dimen/bottom_sheet_list_dp</item>
         <item name="android:gravity">center_vertical</item>

@@ -110,7 +110,6 @@ class F_DetailMovie(val movieModel: MovieModel) : BaseFragment() {
     private fun onListener() {
     }
 
-
     fun onObserve() {
         vm.dataReviews.observe(viewLifecycleOwner, Observer {
             eCDetailMovie.networkState = it.networkState
@@ -119,6 +118,14 @@ class F_DetailMovie(val movieModel: MovieModel) : BaseFragment() {
 
             if (it.reviewList.total_pages > 1) {
                 bind.btnSeeMore.isVisible = true
+            }
+
+            if (it.reviewList.page != 0 && it.reviewList.results.isEmpty()) {
+                bind.tvInfo.visibility = View.VISIBLE
+                bind.rvReviews.visibility = View.INVISIBLE
+            } else {
+                bind.tvInfo.visibility = View.GONE
+                bind.rvReviews.visibility = View.VISIBLE
             }
         })
     }

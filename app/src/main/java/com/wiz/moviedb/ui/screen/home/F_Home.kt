@@ -41,7 +41,7 @@ class F_Home : BaseFragment() {
         bind = FHomeBinding.bind(LayoutInflater.from(context).inflate(R.layout.f_home, null))
         return bind.root
     }
-    
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         vm = ViewModelProviders.of(this, VM_Main.VMF_Main(context!!)).get(VM_Main::class.java)
@@ -52,6 +52,7 @@ class F_Home : BaseFragment() {
         onObserve()
         onClick()
         onListener()
+        checkActiveCategory()
 
         eCHome = EC_Home(
             context!!,
@@ -70,11 +71,12 @@ class F_Home : BaseFragment() {
         bind.recyclerView.setController(eCHome)
     }
 
-    private fun initBottomSheet() {
-        bottomSheetBehavior = BottomSheetBehavior.from(bind.bottomMenuCategory)
-        bottomSheetBehavior.isHideable = false
-        bottomSheetBehavior.peekHeight = DpPxConverter.dpToPixel(44, bind.bottomMenuCategory.context)
-        bottomSheetBehavior.isFitToContents = true
+    fun onObserve() {
+        vm.dataMovies.observe(viewLifecycleOwner, Observer {
+            eCHome.networkState = it.networkState
+
+            eCHome.setData(it.movieList.results)
+        })
     }
 
     private fun onListener() {
@@ -120,7 +122,16 @@ class F_Home : BaseFragment() {
         }
     }
 
+    private fun initBottomSheet() {
+        bottomSheetBehavior = BottomSheetBehavior.from(bind.bottomMenuCategory)
+        bottomSheetBehavior.isHideable = false
+        bottomSheetBehavior.peekHeight = DpPxConverter.dpToPixel(44, bind.bottomMenuCategory.context)
+        bottomSheetBehavior.isFitToContents = true
+    }
+
     private fun toggleVisibilityBottomSheet() {
+        checkActiveCategory()
+
         if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
             bind.btnVisibilityBottomSheet.setText("Close Category")
             bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED)
@@ -130,11 +141,15 @@ class F_Home : BaseFragment() {
         }
     }
 
-    fun onObserve() {
-        vm.dataMovies.observe(viewLifecycleOwner, Observer {
-            eCHome.networkState = it.networkState
+    fun checkActiveCategory() {
+        bind.btnCatTopRated.setBackgroundColor(resources.getColor(R.color.defaultBackgroundAndroid))
+        bind.btnCatPopular.setBackgroundColor(resources.getColor(R.color.defaultBackgroundAndroid))
+        bind.btnCatNowPlaying.setBackgroundColor(resources.getColor(R.color.defaultBackgroundAndroid))
 
-            eCHome.setData(it.movieList.results)
-        })
+        when(vm.getCategoryMode()) {
+            VM_Main.CAT_TOP_RATED -> bind.btnCatTopRated.setBackgroundColor(resources.getColor(R.color.md_grey_300))
+            VM_Main.CAT_POPULAR -> bind.btnCatPopular.setBackgroundColor(resources.getColor(R.color.md_grey_300))
+            VM_Main.CAT_NOW_PLAYING -> bind.btnCatNowPlaying.setBackgroundColor(resources.getColor(R.color.md_grey_300))
+        }
     }
 }
