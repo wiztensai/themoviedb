@@ -14,6 +14,7 @@ import com.wiz.moviedb.R
 import com.wiz.moviedb.databinding.FDetailMovieBinding
 import com.wiz.moviedb.domain.MovieModel
 import com.wiz.moviedb.domain.ReviewModel
+import com.wiz.moviedb.ui.screen.more_review.F_MoreReview
 import com.wiz.moviedb.util.*
 import com.wiz.moviedb.viewmodel.VM_DetailMovie
 import kotlinx.coroutines.*
@@ -98,8 +99,8 @@ class F_DetailMovie(val movieModel: MovieModel) : BaseFragment() {
             }
         }
 
-        bind.btnSeeMore.setOnClickListener {
-
+        bind.btnMoreReviews.setOnClickListener {
+            navAddTo(F_MoreReview(movieModel))
         }
 
         bind.btnBack.setOnClickListener {
@@ -117,7 +118,7 @@ class F_DetailMovie(val movieModel: MovieModel) : BaseFragment() {
             eCDetailMovie.setData(it.reviewList.results)
 
             if (it.reviewList.total_pages > 1) {
-                bind.btnSeeMore.isVisible = true
+                bind.btnMoreReviews.isVisible = true
             }
 
             if (it.reviewList.page != 0 && it.reviewList.results.isEmpty()) {

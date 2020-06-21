@@ -23,12 +23,12 @@
             tools:text="@tools:sample/full_names" />
 
         <TextView
-            android:gravity="start"
+            android:textDirection="locale"
+            android:gravity="left"
             android:id="@+id/tvContent"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="5"
+
             android:text="lorem ipsum dolor sit amet"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/tvTitle"

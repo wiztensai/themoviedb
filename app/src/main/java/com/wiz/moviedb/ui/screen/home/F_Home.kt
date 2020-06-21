@@ -82,9 +82,6 @@ class F_Home : BaseFragment() {
     private fun onListener() {
         scrollListener = object : EndlessRecyclerViewScrollListener(bind.recyclerView.layoutManager as LinearLayoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
-//                if (isEndData == false) {
-//                    vm.getMovielist(page)
-//                }
                 vm.getMovielist(page)
             }
         }
