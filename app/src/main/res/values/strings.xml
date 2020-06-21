@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Moviedb</string>
+    <string name="key_moviedb">e135de44bc5152a994e0f64c2442023a</string>
+    <string name="broadcast_toggle_fav">broadcast_toggle_fav</string>
+</resources>

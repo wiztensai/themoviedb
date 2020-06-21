@@ -1,0 +1,33 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+        <item name="android:windowSoftInputMode">adjustPan</item>
+    </style>
+
+    <style name="MContainer">
+        <!--prevent click through previous fragment if backstacked-->
+        <item name="android:clickable">true</item>
+        <item name="android:background">@color/defaultBackgroundAndroid</item>
+    </style>
+
+    <style name="BottomMenuList">
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:layout_height">@dimen/bottom_sheet_list_dp</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="BottomMenuHeadList" parent="FontStyleBody_Bold">
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:layout_height">@dimen/bottom_sheet_list_dp</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+</resources>

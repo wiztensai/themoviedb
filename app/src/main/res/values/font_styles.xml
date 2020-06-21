@@ -1,0 +1,48 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!--https://material.io/design/typography/the-type-system.html#type-scale-->
+
+    <style name="FontStyleHeading_Bold">
+        <item name="fontPath">Montserrat-SemiBold.ttf</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="FontStyleHeading">
+        <item name="fontPath">Montserrat-Regular.ttf</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="FontStyleSubheader_Bold">
+        <item name="fontPath">Montserrat-SemiBold.ttf</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="FontStyleSubheader">
+        <item name="fontPath">Montserrat-Regular.ttf</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="FontStyleBody_Bold">
+        <item name="fontPath">OpenSans-Bold.ttf</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="FontStyleBody">
+        <item name="fontPath">OpenSans-Regular.ttf</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="FontStyleCaption_Bold">
+        <item name="fontPath">OpenSans-Bold.ttf</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="FontStyleCaption">
+        <item name="fontPath">OpenSans-Regular.ttf</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="FontStyleLogo">
+        <item name="fontPath">Montserrat-Regular.ttf</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+</resources>
