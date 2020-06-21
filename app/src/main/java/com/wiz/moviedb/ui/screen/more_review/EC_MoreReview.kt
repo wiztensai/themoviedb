@@ -18,7 +18,7 @@ class EC_MoreReview(var context: Context, var networkState: NetworkState?, var l
         data.forEach {
             EM_Home_(context)
                 .movieModel(it)
-                .id(it.id).onBind { model, view, position ->
+                .id("morereview"+it.id).onBind { model, view, position ->
                     view.layoutContainer.setOnClickListener {
                         listener.onLayoutClick(position, model.movieModel, view)
                     }

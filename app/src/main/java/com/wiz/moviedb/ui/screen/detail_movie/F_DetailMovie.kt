@@ -38,9 +38,7 @@ class F_DetailMovie(val movieModel: MovieModel) : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        bind = FDetailMovieBinding.bind(
-            LayoutInflater.from(context).inflate(R.layout.f_detail_movie, null)
-        )
+        bind = FDetailMovieBinding.bind(LayoutInflater.from(context).inflate(R.layout.f_detail_movie, null))
         return bind.root
     }
 
@@ -115,10 +113,14 @@ class F_DetailMovie(val movieModel: MovieModel) : BaseFragment() {
         vm.dataReviews.observe(viewLifecycleOwner, Observer {
             eCDetailMovie.networkState = it.networkState
 
-            eCDetailMovie.setData(it.reviewList.results)
-
-            if (it.reviewList.total_pages > 1) {
+            // if more than size 5 then show litle of review
+            // so that not too long. and give the remains to more review page
+            if (it.reviewList.results.size> 5) {
+                val temp = it.reviewList.results.subList(0, 5)
+                eCDetailMovie.setData(temp)
                 bind.btnMoreReviews.isVisible = true
+            } else {
+                eCDetailMovie.setData(it.reviewList.results)
             }
 
             if (it.reviewList.page != 0 && it.reviewList.results.isEmpty()) {
