@@ -45,13 +45,6 @@
                         android:layout_height="wrap_content"
                         android:visibility="visible">
 
-                        <!--<ImageButton
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:background="@color/transparent"
-                            android:tint="@color/md_white_1000"
-                            app:srcCompat="@drawable/ic_notifications_none_24px" />-->
-
                         <ImageButton
                             android:foreground="@drawable/ripple_effect_circle_white"
                             android:id="@+id/btnBack"
