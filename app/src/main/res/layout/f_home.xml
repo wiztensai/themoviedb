@@ -38,6 +38,7 @@
                     app:layout_collapseMode="pin">
 
                     <LinearLayout
+                        android:id="@+id/toolbarContainer"
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="?attr/actionBarSize"
@@ -52,21 +53,13 @@
                             android:text="MovieDB"/>
 
 
-                        <FrameLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="8dp"
-                            android:visibility="visible">
-
-                            <ImageButton
-                                android:id="@+id/btnFav"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:background="@color/transparent"
-                                android:tint="@color/md_white_1000"
-                                app:srcCompat="@drawable/ic_favorite_24px" />
-
-                        </FrameLayout>
+                        <ImageButton
+                            android:id="@+id/btnFavHome"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@color/transparent"
+                            android:tint="@color/md_white_1000"
+                            app:srcCompat="@drawable/ic_favorite_24px" />
 
                     </LinearLayout>
 
@@ -76,6 +69,21 @@
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 
         </com.google.android.material.appbar.AppBarLayout>
+
+        <FrameLayout
+            android:visibility="gone"
+            android:id="@+id/shimmerInitHome"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/appbarLayout"
+            app:layout_constraintVertical_bias="0.0">
+
+            <include layout="@layout/item_home_loading" />
+        </FrameLayout>
 
         <com.airbnb.epoxy.EpoxyRecyclerView
             android:id="@+id/recyclerView"

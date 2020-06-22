@@ -33,6 +33,11 @@ class F_DetailMovie(val movieModel: MovieModel) : BaseFragment() {
     lateinit var vm: VM_DetailMovie
     lateinit var eCDetailMovie: EC_DetailMovie
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        setRetainInstance(true)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -50,6 +55,10 @@ class F_DetailMovie(val movieModel: MovieModel) : BaseFragment() {
 
         vm.getReviews(movieModel.id.toInt())
 
+        onObserve()
+        onclick()
+        checkFav()
+
         Glide.with(bind.ivPoster.context).load(CST.BASE_URL_IMG + movieModel.poster_path)
             .into(bind.ivPoster)
         bind.tvTitle.setText(movieModel.title)
@@ -66,31 +75,26 @@ class F_DetailMovie(val movieModel: MovieModel) : BaseFragment() {
         eCDetailMovie.isDebugLoggingEnabled = true
         bind.rvReviews.setItemSpacingDp(8)
         bind.rvReviews.setController(eCDetailMovie)
-
-        onObserve()
-        onclick()
-        onListener()
-        checkFav()
     }
 
     fun checkFav() {
         coroutineScope.launch {
             val isFav = if (roomDB.movieDao().searchById(movieModel.id.toInt()) != null) true else false
-            if (isFav) bind.btnFav.setImageResource(R.drawable.ic_favorite_24px)
-            else bind.btnFav.setImageResource(R.drawable.ic_favorite_border_24px)
+            if (isFav) bind.btnFavDetail.setImageResource(R.drawable.ic_favorite_24px)
+            else bind.btnFavDetail.setImageResource(R.drawable.ic_favorite_border_24px)
         }
     }
 
     private fun onclick() {
-        bind.btnFav.setOnClickListener {
+        bind.btnFavDetail.setOnClickListener {
             coroutineScope.launch {
                 val isFav = if (roomDB.movieDao().searchById(movieModel.id.toInt()) != null) true else false
                 if (isFav) {
                     roomDB.movieDao().unFavorite(movieModel.id.toInt())
-                    bind.btnFav.setImageResource(R.drawable.ic_favorite_border_24px)
+                    bind.btnFavDetail.setImageResource(R.drawable.ic_favorite_border_24px)
                 } else {
                     roomDB.movieDao().favorite(movieModel)
-                    bind.btnFav.setImageResource(R.drawable.ic_favorite_24px)
+                    bind.btnFavDetail.setImageResource(R.drawable.ic_favorite_24px)
                 }
 
                 sendToggleFavBroadcast()
@@ -104,9 +108,6 @@ class F_DetailMovie(val movieModel: MovieModel) : BaseFragment() {
         bind.btnBack.setOnClickListener {
             popBackStack()
         }
-    }
-
-    private fun onListener() {
     }
 
     fun onObserve() {
@@ -129,6 +130,12 @@ class F_DetailMovie(val movieModel: MovieModel) : BaseFragment() {
             } else {
                 bind.tvInfo.visibility = View.GONE
                 bind.rvReviews.visibility = View.VISIBLE
+            }
+
+            if (it.networkState != NetworkState.LOADING) {
+                if (!EspressoIdlingResource.idlingresource.isIdleNow) {
+                    EspressoIdlingResource.decrement()
+                }
             }
         })
     }

@@ -47,6 +47,11 @@ class F_MoreReview(val movieModel: MovieModel) : BaseFragment() {
     lateinit var eCDetailMovie: EC_DetailMovie
     lateinit var scrollListener : EndlessRecyclerViewScrollListener
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        setRetainInstance(true)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -98,10 +103,24 @@ class F_MoreReview(val movieModel: MovieModel) : BaseFragment() {
     }
 
     fun onObserve() {
+        bind.shimmerInitMoreReview.isVisible = true
+
         vm.dataReviews.observe(viewLifecycleOwner, Observer {
             eCDetailMovie.networkState = it.networkState
 
+            if (it.reviewList.results.isEmpty() && it.networkState != NetworkState.FAILED) {
+                bind.shimmerInitMoreReview.isVisible = true
+            } else {
+                bind.shimmerInitMoreReview.isVisible = false
+            }
+
             eCDetailMovie.setData(it.reviewList.results)
+
+            if (it.networkState != NetworkState.LOADING) {
+                if (!EspressoIdlingResource.idlingresource.isIdleNow) {
+                    EspressoIdlingResource.decrement()
+                }
+            }
         })
     }
 }

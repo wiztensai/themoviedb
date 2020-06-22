@@ -15,11 +15,6 @@ class EC_MoreReview(var context: Context, var networkState: NetworkState?, var l
     override fun buildModels(data: MutableList<MovieModel>?) {
         data?:return
 
-        // INIT LOADING
-        EM_ReviewLoading_()
-            .id("IL")
-            .addIf(data.isEmpty() && networkState != NetworkState.FAILED, this)
-
         // CONTENT
         data.forEach {
             EM_Home_(context)

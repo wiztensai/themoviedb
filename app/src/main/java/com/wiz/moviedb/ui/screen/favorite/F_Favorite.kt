@@ -37,6 +37,11 @@ class F_Favorite : BaseFragment() {
         Dispatchers.Main + SupervisorJob() + getErrorHandler()
     )
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        setRetainInstance(true)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -61,8 +66,8 @@ class F_Favorite : BaseFragment() {
             })
 
         eCHome.isDebugLoggingEnabled = true
-        bind.recyclerView.setItemSpacingDp(8)
-        bind.recyclerView.setController(eCHome)
+        bind.rvFavorite.setItemSpacingDp(8)
+        bind.rvFavorite.setController(eCHome)
     }
 
     private fun onClick() {
@@ -76,10 +81,10 @@ class F_Favorite : BaseFragment() {
             val d = roomDB.movieDao().getFavorites()
             if (d.isEmpty()) {
                 bind.tvInfo.visibility = View.VISIBLE
-                bind.recyclerView.visibility = View.INVISIBLE
+                bind.rvFavorite.visibility = View.INVISIBLE
             } else {
                 bind.tvInfo.visibility = View.GONE
-                bind.recyclerView.visibility = View.VISIBLE
+                bind.rvFavorite.visibility = View.VISIBLE
 
                 eCHome.setData(d)
             }

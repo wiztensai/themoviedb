@@ -5,6 +5,7 @@ import androidx.lifecycle.*
 import com.wiz.moviedb.domain.MovielistModel
 import com.wiz.moviedb.domain.ReviewlistModel
 import com.wiz.moviedb.repository.R_Movie
+import com.wiz.moviedb.util.EspressoIdlingResource
 import com.wiz.moviedb.util.NetworkState
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -22,6 +23,8 @@ class VM_DetailMovie(private val context: Context): ViewModel() {
     }
 
     fun getReviews(idMovie:Int, page:Int = 1) {
+        EspressoIdlingResource.increment()
+
         viewModelScope.launch {
             // get latest value livedata
             val temp = dataReviews.value?.reviewList?:let {

@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.*
 import com.wiz.moviedb.domain.MovielistModel
 import com.wiz.moviedb.repository.R_Movie
+import com.wiz.moviedb.util.EspressoIdlingResource
 import com.wiz.moviedb.util.NetworkState
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -30,6 +31,7 @@ class VM_Main(private val context: Context): ViewModel() {
     }
 
     fun getMovielist(page:Int = 1, category:Int = getCategoryMode()) {
+        EspressoIdlingResource.increment()
         if (category != getCategoryMode()) resetMovielist() // happen when user switch category
         if (page == 1) prefs.setData(CATEGORY_MODE, category)
 

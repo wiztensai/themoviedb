@@ -76,6 +76,20 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
+    <FrameLayout
+        android:visibility="gone"
+        android:id="@+id/shimmerInitMoreReview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appbarLayout">
+
+        <include layout="@layout/item_review_loading" />
+    </FrameLayout>
+
     <com.airbnb.epoxy.EpoxyRecyclerView
         android:id="@+id/rvReviews"
         android:layout_width="match_parent"

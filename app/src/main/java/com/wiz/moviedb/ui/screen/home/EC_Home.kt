@@ -13,11 +13,6 @@ class EC_Home(var context: Context, var networkState: NetworkState?, var listene
     override fun buildModels(data: MutableList<MovieModel>?) {
         data?:return
 
-        // INIT LOADING
-        EM_HomeLoading_()
-            .id("IL")
-            .addIf(data.isEmpty() && networkState != NetworkState.FAILED, this)
-
         // CONTENT
         data.forEach {
             EM_Home_(context)

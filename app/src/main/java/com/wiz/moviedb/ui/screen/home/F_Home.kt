@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,9 +17,7 @@ import com.wiz.moviedb.databinding.FHomeBinding
 import com.wiz.moviedb.domain.MovieModel
 import com.wiz.moviedb.ui.screen.detail_movie.F_DetailMovie
 import com.wiz.moviedb.ui.screen.favorite.F_Favorite
-import com.wiz.moviedb.util.DpPxConverter
-import com.wiz.moviedb.util.EndlessRecyclerViewScrollListener
-import com.wiz.moviedb.util.navAddTo
+import com.wiz.moviedb.util.*
 import com.wiz.moviedb.viewmodel.VM_Main
 
 class F_Home : BaseFragment() {
@@ -72,10 +71,24 @@ class F_Home : BaseFragment() {
     }
 
     fun onObserve() {
+        bind.shimmerInitHome.isVisible = true
+
         vm.dataMovies.observe(viewLifecycleOwner, Observer {
             eCHome.networkState = it.networkState
 
+            if (it.movieList.results.isEmpty() && it.networkState != NetworkState.FAILED) {
+                bind.shimmerInitHome.isVisible = true
+            } else {
+                bind.shimmerInitHome.isVisible = false
+            }
+
             eCHome.setData(it.movieList.results)
+
+            if (it.networkState != NetworkState.LOADING) {
+                if (!EspressoIdlingResource.idlingresource.isIdleNow) {
+                    EspressoIdlingResource.decrement()
+                }
+            }
         })
     }
 
@@ -89,7 +102,7 @@ class F_Home : BaseFragment() {
     }
 
     private fun onClick() {
-        bind.btnFav.setOnClickListener {
+        bind.btnFavHome.setOnClickListener {
             navAddTo(F_Favorite())
         }
 
