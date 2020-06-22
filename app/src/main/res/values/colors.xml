@@ -5,5 +5,5 @@
     <color name="colorAccent">#01b4e4</color>
     <color name="transparent">#00000000</color>
     <color name="defaultBackgroundAndroid">#FAFAFA</color>
-    <color name="defaultBackgroundBlack_Med"> @color/md_grey_800</color>
+    <color name="defaultBackgroundBlack_Med"> @color/md_grey_400</color>
 </resources>

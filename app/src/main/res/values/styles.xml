@@ -36,9 +36,6 @@
     
     <style name="Shimmer">
         <item name="shimmer_auto_start">true</item>
-        <item name="shimmer_base_color">@color/md_grey_100</item>
-        <item name="shimmer_highlight_alpha">0.4</item>
-        <item name="shimmer_highlight_color">@color/md_grey_300</item>
     </style>
 
     <style name="ButtonTextview">
