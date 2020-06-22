@@ -9,13 +9,13 @@ Simple Apps that use MovieDB API
 - etc.
 
 ### Requirement:
-- Internet connection
+- Internet connection, i do not yet implement error handling when there is no connection
 
-# How to test
-1. For safety, please test this in emulator when instrumented testing
-Because, in my device, Xiaomi, the Activity never launch. Maybe from Xiaomi Security.
+# Requirement for testing
+1. For safety, please test this in emulator because i use instrumented testing and for
+avoid the Activity never launch in real device. I use Xiaomi, maybe from the security.
 
-2. Please disable emulator animation
+2. Please disable emulator animation. I use test-butler linkedin to assert if animation disabled.
 On your device, under Settings > Developer options, disable the following 3 settings:
 
 - Window animation scale
