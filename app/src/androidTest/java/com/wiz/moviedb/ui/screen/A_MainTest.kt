@@ -3,13 +3,20 @@ package com.wiz.moviedb.ui.screen.home.F_Home
 import android.util.Log
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import androidx.test.core.app.ApplicationProvider.getApplicationContext
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.IdlingRegistry
+import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ActivityTestRule
+import com.linkedin.android.testbutler.TestButler
+import com.schibsted.spain.barista.assertion.BaristaAssertions
 import com.schibsted.spain.barista.assertion.BaristaAssertions.assertThatBackButtonClosesTheApp
 import com.schibsted.spain.barista.assertion.BaristaListAssertions.assertListNotEmpty
 import com.schibsted.spain.barista.assertion.BaristaRecyclerViewAssertions.assertRecyclerViewItemCount
 import com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
+import com.schibsted.spain.barista.interaction.BaristaClickInteractions
 import com.schibsted.spain.barista.interaction.BaristaClickInteractions.clickBack
 import com.schibsted.spain.barista.interaction.BaristaClickInteractions.clickOn
 import com.schibsted.spain.barista.interaction.BaristaListInteractions.clickListItem
@@ -19,15 +26,9 @@ import com.schibsted.spain.barista.internal.failurehandler.BaristaException
 import com.schibsted.spain.barista.rule.cleardata.ClearDatabaseRule
 import com.schibsted.spain.barista.rule.cleardata.ClearFilesRule
 import com.schibsted.spain.barista.rule.cleardata.ClearPreferencesRule
-import com.schibsted.spain.barista.rule.flaky.AllowFlaky
-import com.schibsted.spain.barista.rule.flaky.Repeat
 import com.wiz.moviedb.R
 import com.wiz.moviedb.ui.A_Main
 import com.wiz.moviedb.util.EspressoIdlingResource
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -37,12 +38,20 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class A_MainTest{
 
-    val TAG = "A_HomeTest"
+    private val TAG = "A_HomeTest"
+    private var rvHomeResId = 0
 
     @get:Rule var activityRule: ActivityTestRule<A_Main> = ActivityTestRule(A_Main::class.java)
     @get:Rule var clearPreferencesRule = ClearPreferencesRule()
     @get:Rule var clearFilesRule = ClearFilesRule() // Delete all files in getFilesDir() and getCacheDir()
     @get:Rule var clearDatabaseRule = ClearDatabaseRule() // Delete all tables from all the app's SQLite Databases
+
+    @Before
+    @Throws(Exception::class)
+    fun setup() {
+        rvHomeResId = R.id.recyclerView
+        TestButler.verifyAnimationsDisabled(getApplicationContext())
+    }
 
     /**
      * cek jika di request pertama, mendapatkan result size 20 (result maks 1 page di moviedb)
@@ -53,22 +62,21 @@ class A_MainTest{
      * cek apakah endless scrollnya work?
      */
     @Test
-    fun test_endless_rv_every_category() {
+    fun test_endless_home_rv_category() {
         IdlingRegistry.getInstance().register(EspressoIdlingResource.idlingresource)
-        val resId = R.id.recyclerView
 
-        assertRecyclerViewItemCount(resId, 20)
-        scrollListToPosition(resId, getRVcount(resId)-1)
-        assertRecyclerViewItemCount(resId, 40)
+        assertRecyclerViewItemCount(rvHomeResId, 20)
+        scrollListToPosition(rvHomeResId, getRVcount(rvHomeResId)-1)
+        assertRecyclerViewItemCount(rvHomeResId, 40)
 
         clickOn(R.id.btn_visibility_bottom_sheet)
-        sleep(300) // wait bottomsheet view animation
-        IdlingRegistry.getInstance().register(EspressoIdlingResource.idlingresource)
-        clickOn(R.id.btnCatNowPlaying)
+        sleep(300) // bugfix: animasi bottom sheet belum bisa dimatikan, jadi pakai sleep
+        assertDisplayed(R.id.btnCatTopRated)
+        clickOn(R.id.btnCatTopRated)
 
-        assertRecyclerViewItemCount(resId, 20)
-        scrollListToPosition(resId, getRVcount(resId)-1)
-        assertRecyclerViewItemCount(resId, 40)
+        assertRecyclerViewItemCount(rvHomeResId, 20)
+        scrollListToPosition(rvHomeResId, getRVcount(rvHomeResId)-1)
+        assertRecyclerViewItemCount(rvHomeResId, 40)
 
         IdlingRegistry.getInstance().unregister(EspressoIdlingResource.idlingresource)
     }
@@ -85,9 +93,8 @@ class A_MainTest{
     fun check_more_review_in_movie_detail() {
         IdlingRegistry.getInstance().register(EspressoIdlingResource.idlingresource)
 
-        assertListNotEmpty(R.id.recyclerView)
-        clickListItem(R.id.recyclerView, 0)
-        sleep(200) // animasi pindah ke detail movie
+        assertListNotEmpty(rvHomeResId)
+        clickListItem(rvHomeResId, 0)
         try {
             assertListNotEmpty(R.id.rvReviews) // cek list tidak kosong
 
@@ -111,18 +118,14 @@ class A_MainTest{
     fun check_favorite() {
         IdlingRegistry.getInstance().register(EspressoIdlingResource.idlingresource)
 
-        clickListItem(R.id.recyclerView, 0)
-        sleep(200) // tunggu durasi animasi
-
+        clickListItem(rvHomeResId, 0)
         clickOn(R.id.btnFavDetail)
         clickOn(R.id.btnBack) // back ke home
-        sleep(200) // tunggu durasi animasi
 
-        val recyclerView = activityRule.getActivity().findViewById(R.id.recyclerView) as RecyclerView
+        val recyclerView = activityRule.getActivity().findViewById(rvHomeResId) as RecyclerView
         val movieTitle = recyclerView.layoutManager?.findViewByPosition(0)?.findViewById<TextView>(R.id.tvTitle)?.text?.toString()
         if (movieTitle == null) throw BaristaException("Movie title null", IllegalStateException())
         clickOn(R.id.btnFavHome)
-        sleep(200) // tunggu durasi animasi
 
         val rvFavorite = activityRule.getActivity().findViewById(R.id.rvFavorite) as RecyclerView
         val favTitle = rvFavorite.findViewHolderForAdapterPosition(0)?.itemView?.findViewById<TextView>(R.id.tvTitle)
@@ -134,7 +137,7 @@ class A_MainTest{
     }
 
     @Test
-    fun exit_app() {
+    fun check_exit_app() {
         clickBack()
         assertThatBackButtonClosesTheApp()
     }

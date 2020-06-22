@@ -117,9 +117,7 @@ class F_MoreReview(val movieModel: MovieModel) : BaseFragment() {
             eCDetailMovie.setData(it.reviewList.results)
 
             if (it.networkState != NetworkState.LOADING) {
-                if (!EspressoIdlingResource.idlingresource.isIdleNow) {
-                    EspressoIdlingResource.decrement()
-                }
+                EspressoIdlingResource.decrement()
             }
         })
     }

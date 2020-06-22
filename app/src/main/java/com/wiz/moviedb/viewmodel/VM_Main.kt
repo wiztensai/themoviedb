@@ -32,7 +32,9 @@ class VM_Main(private val context: Context): ViewModel() {
 
     fun getMovielist(page:Int = 1, category:Int = getCategoryMode()) {
         EspressoIdlingResource.increment()
-        if (category != getCategoryMode()) resetMovielist() // happen when user switch category
+        if (category != getCategoryMode()) {
+            resetMovielist()
+        } // happen when user switch category
         if (page == 1) prefs.setData(CATEGORY_MODE, category)
 
         viewModelScope.launch {

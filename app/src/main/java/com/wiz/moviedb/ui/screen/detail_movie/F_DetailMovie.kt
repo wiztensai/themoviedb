@@ -133,9 +133,7 @@ class F_DetailMovie(val movieModel: MovieModel) : BaseFragment() {
             }
 
             if (it.networkState != NetworkState.LOADING) {
-                if (!EspressoIdlingResource.idlingresource.isIdleNow) {
-                    EspressoIdlingResource.decrement()
-                }
+                EspressoIdlingResource.decrement()
             }
         })
     }

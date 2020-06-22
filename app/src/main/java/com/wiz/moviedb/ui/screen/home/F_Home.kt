@@ -85,9 +85,7 @@ class F_Home : BaseFragment() {
             eCHome.setData(it.movieList.results)
 
             if (it.networkState != NetworkState.LOADING) {
-                if (!EspressoIdlingResource.idlingresource.isIdleNow) {
-                    EspressoIdlingResource.decrement()
-                }
+                EspressoIdlingResource.decrement()
             }
         })
     }

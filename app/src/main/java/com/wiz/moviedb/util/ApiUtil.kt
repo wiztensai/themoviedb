@@ -28,7 +28,7 @@ object ApiUtil {
         get() {
             val logging = HttpLoggingInterceptor()
             val clientBuilder = OkHttpClient.Builder()
-            logging.level = HttpLoggingInterceptor.Level.BODY
+            logging.level = HttpLoggingInterceptor.Level.HEADERS
             clientBuilder.addInterceptor(logging)
             return clientBuilder.build()
         }
