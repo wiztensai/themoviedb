@@ -29,7 +29,7 @@ class F_Home : BaseFragment() {
     lateinit var bind: FHomeBinding
     lateinit var vm: VM_Main
     lateinit var eCHome: EC_Home
-    lateinit var scrollListener : EndlessRecyclerViewScrollListener
+    lateinit var scrollListener: EndlessRecyclerViewScrollListener
     lateinit var bottomSheetBehavior: BottomSheetBehavior<LinearLayout>
 
     override fun onCreateView(
@@ -156,7 +156,7 @@ class F_Home : BaseFragment() {
         bind.btnCatPopular.setBackgroundColor(resources.getColor(R.color.defaultBackgroundAndroid))
         bind.btnCatNowPlaying.setBackgroundColor(resources.getColor(R.color.defaultBackgroundAndroid))
 
-        when(vm.getCategoryMode()) {
+        when (vm.getCategoryMode()) {
             VM_Main.CAT_TOP_RATED -> bind.btnCatTopRated.setBackgroundColor(resources.getColor(R.color.md_grey_300))
             VM_Main.CAT_POPULAR -> bind.btnCatPopular.setBackgroundColor(resources.getColor(R.color.md_grey_300))
             VM_Main.CAT_NOW_PLAYING -> bind.btnCatNowPlaying.setBackgroundColor(resources.getColor(R.color.md_grey_300))

@@ -52,6 +52,7 @@
                             app:srcCompat="@drawable/ic_notifications_none_24px" />-->
 
                         <ImageButton
+                            android:foreground="@drawable/ripple_effect_circle_white"
                             android:id="@+id/btnBack"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
@@ -62,6 +63,7 @@
                     </FrameLayout>
 
                     <TextView
+                        style="@style/FontStyleHeading"
                         android:layout_marginLeft="8dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -153,6 +155,7 @@
                 tools:text="@tools:sample/lorem/random" />
 
             <ImageButton
+                android:foreground="@drawable/ripple_effect_circle_grey"
                 android:id="@+id/btnFavDetail"
                 android:layout_width="40dp"
                 android:layout_height="40dp"

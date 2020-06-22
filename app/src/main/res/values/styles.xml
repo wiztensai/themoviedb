@@ -47,4 +47,8 @@
         <item name="android:paddingEnd">8dp</item>
         <item name="android:paddingBottom">4dp</item>
     </style>
+
+    <style name="MButton">
+        <item name="android:foreground">@drawable/ripple_effect_circle_white</item>
+    </style>
 </resources>

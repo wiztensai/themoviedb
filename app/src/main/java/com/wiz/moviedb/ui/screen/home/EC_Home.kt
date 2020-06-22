@@ -27,7 +27,7 @@ class EC_Home(var context: Context, var networkState: NetworkState?, var listene
 
         // MORE CONTENT LOADING
         EM_HomeLoading_()
-            .id("MCL")
+            .id("homeMCL")
             .addIf(hasExtraRow() && data.isNotEmpty(), this)
 
     }

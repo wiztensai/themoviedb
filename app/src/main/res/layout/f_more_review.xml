@@ -53,6 +53,7 @@
                             app:srcCompat="@drawable/ic_notifications_none_24px" />-->
 
                         <ImageButton
+                            android:foreground="@drawable/ripple_effect_circle_white"
                             android:id="@+id/btnBack"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
@@ -77,10 +78,11 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <FrameLayout
-        android:visibility="gone"
         android:id="@+id/shimmerInitMoreReview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -94,6 +96,7 @@
         android:id="@+id/rvReviews"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

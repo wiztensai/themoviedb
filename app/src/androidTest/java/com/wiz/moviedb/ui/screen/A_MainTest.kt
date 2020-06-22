@@ -17,6 +17,8 @@ import com.schibsted.spain.barista.internal.failurehandler.BaristaException
 import com.schibsted.spain.barista.rule.cleardata.ClearDatabaseRule
 import com.schibsted.spain.barista.rule.cleardata.ClearFilesRule
 import com.schibsted.spain.barista.rule.cleardata.ClearPreferencesRule
+import com.schibsted.spain.barista.rule.flaky.AllowFlaky
+import com.schibsted.spain.barista.rule.flaky.Repeat
 import com.wiz.moviedb.R
 import com.wiz.moviedb.ui.A_Main
 import com.wiz.moviedb.util.EspressoIdlingResource
@@ -31,24 +33,14 @@ import org.junit.runner.RunWith
 
 
 @RunWith(AndroidJUnit4::class)
-class F_HomeTest{
+class A_MainTest{
 
-    val TAG = "F_HomeTest"
+    val TAG = "A_HomeTest"
 
     @get:Rule var activityRule: ActivityTestRule<A_Main> = ActivityTestRule(A_Main::class.java)
     @get:Rule var clearPreferencesRule = ClearPreferencesRule()
     @get:Rule var clearFilesRule = ClearFilesRule() // Delete all files in getFilesDir() and getCacheDir()
     @get:Rule var clearDatabaseRule = ClearDatabaseRule() // Delete all tables from all the app's SQLite Databases
-
-    @Before
-    fun setUp() {
-        IdlingRegistry.getInstance().register(EspressoIdlingResource.idlingresource)
-    }
-
-    @After
-    fun tearDown() {
-        IdlingRegistry.getInstance().unregister(EspressoIdlingResource.idlingresource)
-    }
 
     /**
      * cek jika di request pertama, mendapatkan result size 20 (result maks 1 page di moviedb)
@@ -57,12 +49,10 @@ class F_HomeTest{
      *
      * lalu click category now playing
      * cek apakah endless scrollnya work?
-     *
-     * lalu click category top rated
-     * cek apakah endless scrollnya work?
      */
     @Test
     fun test_endless_rv_every_category() {
+        IdlingRegistry.getInstance().register(EspressoIdlingResource.idlingresource)
         val resId = R.id.recyclerView
 
         assertRecyclerViewItemCount(resId, 20)
@@ -71,24 +61,15 @@ class F_HomeTest{
 
         clickOn(R.id.btn_visibility_bottom_sheet)
         sleep(300) // wait bottomsheet view animation
+        IdlingRegistry.getInstance().register(EspressoIdlingResource.idlingresource)
         clickOn(R.id.btnCatNowPlaying)
 
         assertRecyclerViewItemCount(resId, 20)
         scrollListToPosition(resId, getRVcount(resId)-1)
         assertRecyclerViewItemCount(resId, 40)
 
-        clickOn(R.id.btn_visibility_bottom_sheet)
-        sleep(300) // wait bottomsheet view animation
-        clickOn(R.id.btnCatTopRated)
-
-        assertRecyclerViewItemCount(resId, 20)
-        scrollListToPosition(resId, getRVcount(resId)-1)
-        assertRecyclerViewItemCount(resId, 40)
+        IdlingRegistry.getInstance().unregister(EspressoIdlingResource.idlingresource)
     }
-
-    val coroutineScope = CoroutineScope(
-        Dispatchers.Main + SupervisorJob()
-    )
 
     /**
      * cek jika show more review pada detail movie bekerja
@@ -100,6 +81,8 @@ class F_HomeTest{
      */
     @Test
     fun check_more_review_in_movie_detail() {
+        IdlingRegistry.getInstance().register(EspressoIdlingResource.idlingresource)
+
         assertListNotEmpty(R.id.recyclerView)
         clickListItem(R.id.recyclerView, 0)
         sleep(200) // animasi pindah ke detail movie
@@ -107,11 +90,13 @@ class F_HomeTest{
             assertListNotEmpty(R.id.rvReviews) // cek list tidak kosong
 
             Log.d(TAG, "rv size: ${getRVcount(R.id.rvReviews)}")
-        } catch (e: BaristaException) {
+        } catch (e: BaristaException) { // jika list kosong, sengaja dicatch karena memunculkan info rv kosong
             assertDisplayed(R.id.tvInfo) // muncul info error
 
             Log.d(TAG, "rv size: ${getRVcount(R.id.rvReviews)}")
         }
+
+        IdlingRegistry.getInstance().unregister(EspressoIdlingResource.idlingresource)
     }
 
     /**
@@ -122,26 +107,28 @@ class F_HomeTest{
      */
     @Test
     fun check_favorite() {
-        val recyclerView = activityRule.getActivity().findViewById(R.id.recyclerView) as RecyclerView
-        val movieTitle = recyclerView.findViewHolderForAdapterPosition(0)?.itemView?.findViewById<TextView>(R.id.tvTitle)?.text?.toString()
-        if (movieTitle == null) throw BaristaException("Movie title null", IllegalStateException())
+        IdlingRegistry.getInstance().register(EspressoIdlingResource.idlingresource)
 
-        assertListNotEmpty(R.id.rvFavorite)
-        clickListItem(R.id.rvFavorite, 0)
-        sleep(200) // animasi pindah ke detail movie
+        clickListItem(R.id.recyclerView, 0)
+        sleep(200) // tunggu durasi animasi
 
         clickOn(R.id.btnFavDetail)
-        clickOn(R.id.btnBack)
-        sleep(200) // animasi pindah ke home
+        clickOn(R.id.btnBack) // back ke home
+        sleep(200) // tunggu durasi animasi
 
+        val recyclerView = activityRule.getActivity().findViewById(R.id.recyclerView) as RecyclerView
+        val movieTitle = recyclerView.layoutManager?.findViewByPosition(0)?.findViewById<TextView>(R.id.tvTitle)?.text?.toString()
+        if (movieTitle == null) throw BaristaException("Movie title null", IllegalStateException())
         clickOn(R.id.btnFavHome)
-        sleep(200) // animasi pindah ke favorite
+        sleep(200) // tunggu durasi animasi
 
         val rvFavorite = activityRule.getActivity().findViewById(R.id.rvFavorite) as RecyclerView
         val favTitle = rvFavorite.findViewHolderForAdapterPosition(0)?.itemView?.findViewById<TextView>(R.id.tvTitle)
         favTitle?.let {
             assertDisplayed(it.id, movieTitle)
         }
+
+        IdlingRegistry.getInstance().unregister(EspressoIdlingResource.idlingresource)
     }
 
     private fun getRVcount(resId:Int): Int {

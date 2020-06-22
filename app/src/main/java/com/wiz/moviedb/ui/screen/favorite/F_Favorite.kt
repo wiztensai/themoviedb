@@ -15,6 +15,7 @@ import com.wiz.moviedb.databinding.FFavoriteBinding
 import com.wiz.moviedb.domain.MovieModel
 import com.wiz.moviedb.ui.screen.detail_movie.F_DetailMovie
 import com.wiz.moviedb.ui.screen.home.EM_Home
+import com.wiz.moviedb.util.EspressoIdlingResource
 import com.wiz.moviedb.util.getErrorHandler
 import com.wiz.moviedb.util.navAddTo
 import com.wiz.moviedb.util.popBackStack
@@ -78,6 +79,7 @@ class F_Favorite : BaseFragment() {
 
     fun checkFavData() {
         coroutineScope.launch {
+            EspressoIdlingResource.increment()
             val d = roomDB.movieDao().getFavorites()
             if (d.isEmpty()) {
                 bind.tvInfo.visibility = View.VISIBLE
@@ -88,6 +90,7 @@ class F_Favorite : BaseFragment() {
 
                 eCHome.setData(d)
             }
+            EspressoIdlingResource.decrement()
         }
     }
 
