@@ -6,9 +6,11 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ActivityTestRule
+import com.schibsted.spain.barista.assertion.BaristaAssertions.assertThatBackButtonClosesTheApp
 import com.schibsted.spain.barista.assertion.BaristaListAssertions.assertListNotEmpty
 import com.schibsted.spain.barista.assertion.BaristaRecyclerViewAssertions.assertRecyclerViewItemCount
 import com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
+import com.schibsted.spain.barista.interaction.BaristaClickInteractions.clickBack
 import com.schibsted.spain.barista.interaction.BaristaClickInteractions.clickOn
 import com.schibsted.spain.barista.interaction.BaristaListInteractions.clickListItem
 import com.schibsted.spain.barista.interaction.BaristaListInteractions.scrollListToPosition
@@ -129,6 +131,12 @@ class A_MainTest{
         }
 
         IdlingRegistry.getInstance().unregister(EspressoIdlingResource.idlingresource)
+    }
+
+    @Test
+    fun exit_app() {
+        clickBack()
+        assertThatBackButtonClosesTheApp()
     }
 
     private fun getRVcount(resId:Int): Int {
