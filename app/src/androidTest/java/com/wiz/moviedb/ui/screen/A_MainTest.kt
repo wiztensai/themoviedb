@@ -82,15 +82,11 @@ class A_MainTest{
     }
 
     /**
-     * cek jika show more review pada detail movie bekerja
-     * cari film avenger di category popular
-     * lalu cek apakah show more ada?
-     * jika ada, click untuk ke halaman more review
-     *
-     * cek endless scrollnya apakah bekerja atau tidak di halaman more review
+     * cek apakah review di detail movie muncul?
+     * jika tidak apakah muncul info bahwa tidak ada review?
      */
     @Test
-    fun check_more_review_in_movie_detail() {
+    fun check_review_in_movie_detail() {
         IdlingRegistry.getInstance().register(EspressoIdlingResource.idlingresource)
 
         assertListNotEmpty(rvHomeResId)
